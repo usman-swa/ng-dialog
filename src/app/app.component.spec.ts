@@ -1,31 +1,48 @@
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { CommonModule } from '@angular/common';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [
-        AppComponent
-      ],
+  let component: AppComponent;
+  let element: HTMLElement;
+  let fixture: ComponentFixture<AppComponent>;
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [CommonModule],
+      providers: [],
+      declarations: [AppComponent],
     }).compileComponents();
+
+    fixture = TestBed.createComponent(AppComponent);
+    component = fixture.componentInstance;
+    element = fixture.nativeElement;
   });
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+  it('should create app component', () => {
+    expect(component).toBeTruthy();
   });
 
-  it(`should have as title 'angular-dialog'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('angular-dialog');
-  });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
+  it('should show Home heading', () => {
+    const titleElement = element.querySelector('h1');
     fixture.detectChanges();
-    const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('angular-dialog app is running!');
+    expect(titleElement.textContent).toContain('Home');
+  });
+
+  it('should show dialog button', () => {
+    fixture.detectChanges();
+    const titleElement = element.querySelector('button');
+    fixture.detectChanges();
+    expect(titleElement.textContent).toContain('Open Dialog');
+  });
+
+  xit('should call open on button click', () => {
+    component.openDialog('id');
+    spyOn(component, 'openDialog');
+    fixture.detectChanges();
+    const titleElement = element.querySelector('button');
+    titleElement.click();
+    fixture.detectChanges();
+    expect(component.openDialog('id')).toHaveBeenCalled();
   });
 });
+
